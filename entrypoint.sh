@@ -10,31 +10,65 @@ DIR_BIN="/opt/xray"
 
 mkdir -p ${DIR_BIN}
 
-# Write configuration
+
 cat << EOF > ${DIR_TMP}/config.json
 {
-    "inbounds": [{
-        "port": ${PORT},
-        "protocol": "vmess",
-        "settings": {
-            "users": [{
-                "id": "${ID}",
-                "level": 0,
-                "email": "${EMAIL}"
-            }]
-        },
-        "streamSettings": {
-            "network": "ws",
-            "wsSettings": {
-                "path": "${WSPATH}"
-            }
+  "inbounds": [
+    {
+      "port": ${PORT}, 
+      "protocol": "vless",
+      "settings": {
+        "clients": [
+          {
+            "id": "${ID}",
+            "level": 0
+          }
+        ],
+        "decryption": "none"
+      },
+      "streamSettings": {
+        "network": "ws",
+        "wsSettings": {
+          "path": "${WSPATH}"
         }
-    }],
-    "outbounds": [{
-        "protocol": "freedom"
-    }]
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "settings": {}
+    }
+  ]
 }
 EOF
+
+
+# Write configuration
+# cat << EOF > ${DIR_TMP}/config.json
+# {
+#     "inbounds": [{
+#         "port": ${PORT},
+#         "protocol": "vmess",
+#         "settings": {
+#             "users": [{
+#                 "id": "${ID}",
+#                 "level": 0,
+#                 "email": "${EMAIL}"
+#             }]
+#         },
+#         "streamSettings": {
+#             "network": "ws",
+#             "wsSettings": {
+#                 "path": "${WSPATH}"
+#             }
+#         }
+#     }],
+#     "outbounds": [{
+#         "protocol": "freedom"
+#     }]
+# }
+# EOF
 
 # Get executable release
 curl --retry 10 --retry-max-time 60 -H "Cache-Control: no-cache" -fsSL https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip  -o ${DIR_TMP}/xray_dist.zip
