@@ -30,12 +30,8 @@ cat << EOF > ${DIR_TMP}/config.json
       },
       "streamSettings": {
         "network": "ws",
-        "security": "tls",
         "wsSettings": {
           "path": "${WSPATH}"
-        },
-        "tlsSettings": {
-          "certificates": []
         }
       },
       "sniffing": {
